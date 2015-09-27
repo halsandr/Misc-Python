@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import hashlib, os, time, math
 from hashlib import md5
 from getpass import getpass
