@@ -10,3 +10,5 @@ pdkdf2_sha254.py - Tests you how long it would take to pdkdf2_sha254 hash a word
 Time.py - Tests how many times you can MD5 hash in a set amount of time (Single Core)(CPU wastefull and inaccuracte)
 
 Tec_md5_crack.py - Password cracker for Technicolor TG582n router
+
+Tec_md5_crack_par.pt - same as above but using multiple cores
