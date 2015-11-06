@@ -55,9 +55,9 @@ def pwd_find(start, stop):
 			timetotal = math.ceil(time2 - time1) # Calculates the time taken
 			print pwd + " = " + hidepw + " (in " + str(timetotal) + " seconds)"
 			print ""
-			p.terminate() # 
-			p.join()
-			file.close()
+			p.terminate() # forces the worker process to end
+			p.join() # Waits for worker process to end
+			file.close() # Closes the wordlist file
 			end = raw_input("hit enter to exit")
 			exit()
 
@@ -66,10 +66,10 @@ if __name__ == '__main__':  # Added this because the multiprocessor module acts 
     p = Pool(cores)  # Number of processors to utilize.
     for i in break_points:  # Cycles though the breakpoints list created above.
         a = p.apply_async(pwd_find, kwds=i, args=tuple())  # This will start the separate processes.
-    p.close()
-    p.join()
+    p.close() # Prevents any more processes for being started
+    p.join() # Waits for worker process to end
 
-file.close()
+file.close() # Closes the wordlist file
 
 screen_clear()
 time2 = time.time() # Stops the 'Clock'
