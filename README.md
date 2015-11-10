@@ -11,4 +11,4 @@ Time.py - Tests how many times you can MD5 hash in a set amount of time (Single 
 
 Tec_md5_crack.py - Password cracker for Technicolor TG582n router
 
-Tec_md5_crack_par.pt - same as above but using multiple cores
+Tec_md5_crack_par.py - same as above but using multiple cores
