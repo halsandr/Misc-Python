@@ -1,8 +1,35 @@
 #!/usr/bin/env python
 
-import hashlib, os, time, math
+import hashlib, os, time, math, sys, getopt
 from hashlib import md5
 from multiprocessing import Pool, cpu_count, Manager
+
+user = ""
+nonce = ""
+hash = ""
+file = ""
+
+def usage(): # any incorrect input will display the usage instructions
+	print "Correct instructions will go here"
+	sys.exit(2)
+
+try:
+	opts, args = getopt.getopt(sys.argv[1:], "u:n:h:w:", ["user=", "nonce=", "hash=", "wordlist="])
+except getopt.GetoptError:
+	usage()
+
+for opt, arg in opts:
+	if opt in ("-u", "--user"):
+		user = arg
+	if opt in ("-n", "--nonce"):
+		nonce = arg
+	if opt in ("-h", "--hash"):
+		hash = arg
+	if opt in ("-w", "--wordlist"):
+		file = arg
+
+if not user or not nonce or not hash or not file: # makes sure all variables are filled
+	usage()
 
 def screen_clear(): # Small function for clearing the screen on Unix or Windows
 	if os.name == 'nt':
@@ -18,16 +45,6 @@ print ""
 print "Welcome to the Technicolor md5 cracker"
 print ""
 
-user = raw_input("Username: ")
-print ""
-nonce = raw_input("Nonce: ")
-print ""
-hash = raw_input("Hash: ")
-print ""
-file = raw_input("Wordlist: ")
-
-screen_clear()
-
 time1 = time.time() # Begins the 'Clock' for timing
 
 realm = "Technicolor Gateway" # These 3 variables dont appear to change
@@ -40,7 +57,7 @@ file = open(file, 'r') # Opens the wordlist file
 wordlist = file.readlines() # This enables us to use len()
 length = len(wordlist)
 
-print "Cracking the password for \"" + user + "\" using " + str(length) + " words"
+print "Cracking the password for \"" + user + "\" using " + str(length) + " words with " + str(cores) + " Threads"
 
 break_points = []  # List that will have start and stopping points
 for i in range(cores):  # Creates start and stopping points based on length of word list
@@ -88,4 +105,4 @@ if finished == False:
 end = raw_input("Hit enter to exit")
 file.close() # Closes the wordlist file
 screen_clear()
-exit()
+sys.exit(2)
