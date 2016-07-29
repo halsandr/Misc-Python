@@ -50,32 +50,32 @@ class PrimePercCalculator:
         self._known_primes = [2, 3]
         self._known_primes += [x for x in range(5, 1000, 2) if self.is_prime(x)]
 
-    def prime_calculate(self):
-        def prime_calculator(start, stop):
-            n_one, n_three, n_seven, n_nine = 0, 0, 0, 0
-            for x in range(start, stop):
-                if self.is_prime(x):
-                    if x % 10 == 1:
-                        n_one += 1
-                    elif x % 10 == 3:
-                        n_three += 1
-                    elif x % 10 == 7:
-                        n_seven += 1
-                    elif x % 10 == 9:
-                        n_nine += 1
-                    else:
-                        continue
+    def prime_calculator(self, start, stop):
+        n_one, n_three, n_seven, n_nine = 0, 0, 0, 0
+        for x in range(start, stop):
+            if self.is_prime(x):
+                if x % 10 == 1:
+                    n_one += 1
+                elif x % 10 == 3:
+                    n_three += 1
+                elif x % 10 == 7:
+                    n_seven += 1
+                elif x % 10 == 9:
+                    n_nine += 1
                 else:
                     continue
-            return n_one, n_three, n_seven, n_nine
+            else:
+                continue
+        return (n_one, n_three, n_seven, n_nine)
 
-        def update_num(list_of):
-            n_one, n_three, n_seven, n_nine = list_of
-            self.one += n_one
-            self.three += n_three
-            self.seven += n_seven
-            self.nine += n_nine
+    def update_num(self, list_of):
+        n_one, n_three, n_seven, n_nine = list_of
+        self.one += n_one
+        self.three += n_three
+        self.seven += n_seven
+        self.nine += n_nine
 
+    def prime_calculate(self):
         break_points = []  # List that will have start and stopping points
         for i in range(cores):  # Creates start and stopping points based on length of range_finish
             break_points.append(
@@ -84,7 +84,7 @@ class PrimePercCalculator:
 
         p = Pool(cores)  # Number of processes to create.
         for i in break_points:  # Cycles though the breakpoints list created above.
-            a = p.apply_async(prime_calculator, kwds=i, callback=update_num)  # This will start the separate processes.
+            a = p.apply_async(self.prime_calculator, kwds=i, callback=self.update_num)  # This will start the separate processes.
         p.close()  # Prevents any more processes being started
         p.join()  # Waits for worker process to end
 
